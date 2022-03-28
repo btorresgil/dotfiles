@@ -1,0 +1,14 @@
+lukechilds/zsh-nvm
+zdharma-continuum/fast-syntax-highlighting
+zsh-users/zsh-autosuggestions
+# zsh-users/zsh-history-substring-search
+zsh-users/zsh-completions
+hlolli/zsh-better-npm-completion
+g-plane/zsh-yarn-autocompletions
+laggardkernel/git-ignore
+supercrabtree/k
+b4b4r07/enhancd
+bobthecow/git-flow-completion
+github/hub kind:fpath path:etc/hub.zsh_completion
+darvid/zsh-poetry
+bhilburn/powerlevel9k
