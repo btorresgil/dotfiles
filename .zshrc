@@ -169,7 +169,9 @@ export PATH="/usr/local/opt/libpq/bin:$PATH"
 
 # thefuck?
 # eval $(thefuck --alias)
-_evalcache thefuck --alias
+if command -v thefuck 1>/dev/null 2>&1; then
+  _evalcache thefuck --alias
+fi
 
 # autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
@@ -208,10 +210,6 @@ export PATH="$HOME/.poetry/bin:$PATH"
 export PATH="$HOME/.local/bin:$HOME/Library/Python/3.7/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 
-# hub
-# eval "$(hub alias -s)"
-_evalcache hub alias -s
-
 # rust and cargo
 export PATH="$HOME/.cargo/bin:$PATH"
 
@@ -234,5 +232,8 @@ bindkey '^E' end-of-line
 # brew openssl 1.1 (install with `brew install openssl@1.1`)
 PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 
-. "/Users/btorresgil/.acme.sh/acme.sh.env"
+if [ -d "$HOME/.acme.sh" ]; then
+  source "$HOME/.acme.sh/acme.sh.env"
+fi
+
 export PATH="/usr/local/opt/qt/bin:$PATH"
