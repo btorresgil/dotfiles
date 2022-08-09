@@ -219,7 +219,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 
 # broot
-source $HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br
+# source $HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
 # Keybindings
 bindkey -v
@@ -233,8 +233,6 @@ bindkey '^E' end-of-line
 
 # brew openssl 1.1 (install with `brew install openssl@1.1`)
 PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-
-source /Users/btorresgil/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
 . "/Users/btorresgil/.acme.sh/acme.sh.env"
 export PATH="/usr/local/opt/qt/bin:$PATH"
