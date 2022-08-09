@@ -6,7 +6,7 @@ cd "$HOME/.dotfiles" || exit
 # Make all the directories
 find . -type d | cut -c3- | xargs -I {} mkdir -p "$HOME/{}"
 # Symlink all the files (except .git and setup.sh)
-find . -type f | cut -c3- | grep -vE '^(\.git|setup\.sh)' | xargs -I {} ln -s "$HOME/.dotfiles/{}" "$HOME/{}"
+find . -type f | cut -c3- | grep -vE '^(\.git|setup\.sh|.*\.zsh)' | xargs -I {} ln -s "$HOME/.dotfiles/{}" "$HOME/{}"
 
 ## Setup iterm2 preferences
 
