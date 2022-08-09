@@ -124,9 +124,9 @@ fi
 
 # Aliases
 
-alias ls="exa"
-alias cat='bat'
-alias ping='prettyping --nolegend'
+command -v exa >/dev/null && alias ls="exa"
+command -v bat >/dev/null && alias cat='bat'
+command -v prettyping >/dev/null && alias ping='prettyping --nolegend'
 alias ncdu='ncdu --color dark -x --exclude .git --exclude node_modules'
 alias preview="fzf --preview 'bat --color \"always\" {}'"
 alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
