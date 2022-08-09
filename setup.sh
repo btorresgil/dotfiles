@@ -17,3 +17,12 @@ if [ "$(uname)" = "Darwin" ]; then
   defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
 fi
 
+## Report missing programs that are used by this configuration
+
+requirements=("${(@f)"$(<$HOME/.dotfiles/requirements)"}")
+for program_line in "${requirements[@]}"; do
+  program=("${(s/,/)program_line}")
+  if ! command -v "$program[1]" 1>/dev/null 2>&1; then
+    echo "Missing $program[1] - $program[2]"
+  fi
+done
