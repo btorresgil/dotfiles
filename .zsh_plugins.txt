@@ -1,3 +1,4 @@
+mroth/evalcache
 lukechilds/zsh-nvm
 zdharma-continuum/fast-syntax-highlighting
 zsh-users/zsh-autosuggestions

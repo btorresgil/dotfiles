@@ -1,9 +1,14 @@
+# For profiling startup time with zprof
+# zmodload zsh/zprof
+
 # Enable autocompletions
 autoload -Uz compinit
 
 # Only refresh auto completion if it has changed. Saves time.
 # Taken from: https://gist.github.com/ctechols/ca1035271ad134841284
-if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+# if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+# This version is from https://carlosbecker.com/posts/speeding-up-zsh/
+if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
   compinit -i
 else
   compinit -C -i
@@ -37,6 +42,7 @@ zstyle ':completion:*' group-name '' # group results by category
 zstyle ':completion:::::' completer _expand _complete _ignored _approximate # enable approximate matches for completion
 
 # Plugins Settings
+export NVM_LAZY_LOAD=true
 export NVM_AUTO_USE=true
 alias gi='git-ignore'
 ENHANCD_FILTER=fzy:fzf:peco
@@ -95,6 +101,20 @@ export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
 #export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/gcloud/devrel-cps-btorresgil-a3dc0c375571.json"
 export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/gcloud/application_default_credentials.json"
 
+# Load antibody plugins
+if [ ! -d "~/Library/Caches/antibody" ]; then
+  zsh-update-plugins
+fi
+source ~/.zsh_plugins.sh
+
+if [[ "$TERM_PROGRAM" == 'iTerm.app' ]]; then
+  source $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify/notify.plugin.zsh
+  fpath+=( $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify )
+elif [[ "$TERM_PROGRAM" == 'Apple_Terminal' ]]; then
+  source $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify/notify.plugin.zsh
+  fpath+=( $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify )
+fi
+
 # Aliases
 
 alias ls="exa"
@@ -134,11 +154,13 @@ if [ -f "$HOME/.local/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/.local/goo
 if [ -f "$HOME/.local/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/.local/google-cloud-sdk/completion.zsh.inc"; fi
 
 # Direnv
-eval "$(direnv hook zsh)"
+# eval "$(direnv hook zsh)"
+_evalcache direnv hook zsh
 export PATH="/usr/local/opt/libpq/bin:$PATH"
 
 # thefuck?
-eval $(thefuck --alias)
+# eval $(thefuck --alias)
+_evalcache thefuck --alias
 
 # autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
@@ -160,13 +182,15 @@ gpip3(){
 
 # pyenv
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
-  eval "$(pyenv init -)"
+  # eval "$(pyenv init --path)"
+  # eval "$(pyenv init -)"
+  _evalcache pyenv init --path
+  _evalcache pyenv init -
 fi
 if command -v pyenv-virtualenv-init 1>/dev/null 2>&1; then
-  eval "$(pyenv virtualenv-init -)"
+  # eval "$(pyenv virtualenv-init -)"
+  _evalcache pyenv virtualenv-init -
 fi
-
 
 # poetry
 export PATH="$HOME/.poetry/bin:$PATH"
@@ -176,7 +200,8 @@ export PATH="$HOME/.local/bin:$HOME/Library/Python/3.7/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 
 # hub
-eval "$(hub alias -s)"
+# eval "$(hub alias -s)"
+_evalcache hub alias -s
 
 # rust and cargo
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -186,20 +211,6 @@ PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 
 # broot
 source $HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br
-
-# Load antibody plugins
-if [ ! -d "~/Library/Caches/antibody" ]; then
-  zsh-update-plugins
-fi
-source ~/.zsh_plugins.sh
-
-if [[ "$TERM_PROGRAM" == 'iTerm.app' ]]; then
-  source $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify/notify.plugin.zsh
-  fpath+=( $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify )
-elif [[ "$TERM_PROGRAM" == 'Apple_Terminal' ]]; then
-  source $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify/notify.plugin.zsh
-  fpath+=( $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify )
-fi
 
 # Keybindings
 bindkey -v
