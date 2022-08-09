@@ -5,13 +5,20 @@
 autoload -Uz compinit
 
 # Only refresh auto completion if it has changed. Saves time.
-# Taken from: https://gist.github.com/ctechols/ca1035271ad134841284
-# if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-# This version is from https://carlosbecker.com/posts/speeding-up-zsh/
-if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
-  compinit -i
+if [ $(uname) = "Darwin" ]; then
+  # This version is from https://carlosbecker.com/posts/speeding-up-zsh/
+  if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
+    compinit -i
+  else
+    compinit -C -i
+  fi
 else
-  compinit -C -i
+  # Taken from: https://gist.github.com/ctechols/ca1035271ad134841284
+  if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+    compinit -i
+  else
+    compinit -C -i
+  fi
 fi
 
 zmodload -i zsh/complist
@@ -147,7 +154,7 @@ alias splunk='gcloud compute --project "ixius-splunk" ssh --zone "us-west1-b" "s
 
 
 # fzf (fuzzy find)
-[ -f $HOME/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f $HOME/.dotfiles/.fzf.zsh ] && source ~/.dotfiles/.fzf.zsh
 export FZF_CTRL_R_OPTS='--sort --exact'
 
 # gcloud SDK
