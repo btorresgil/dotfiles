@@ -135,6 +135,8 @@ alias urlencode='python -c "import sys, urllib.parse as ul; \
 
 alias gh-browse='gh repo view --web'
 
+alias zshtime='for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done'
+
 # SSH Aliases
 
 alias sshproxy='ssh -o ProxyCommand="nc -X 5 -x 127.0.0.1:1080 %h %p"'
