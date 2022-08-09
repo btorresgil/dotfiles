@@ -12,4 +12,4 @@ b4b4r07/enhancd
 bobthecow/git-flow-completion
 github/hub kind:fpath path:etc/hub.zsh_completion
 darvid/zsh-poetry
-bhilburn/powerlevel9k
+romkatv/powerlevel10k

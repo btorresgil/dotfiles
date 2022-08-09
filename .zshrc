@@ -1,6 +1,13 @@
 # For profiling startup time with zprof
 # zmodload zsh/zprof
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Enable autocompletions
 autoload -Uz compinit
 
@@ -68,7 +75,11 @@ VIRTUAL_ENV_DISABLE_PROMPT=1
 # Theme
 POWERLEVEL9K_MODE='nerdfont-complete'
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(user dir virtualenv vcs)
+if [ "$HOST" = "oasis" ]; then
+  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir virtualenv vcs)
+else
+  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir virtualenv vcs)
+fi
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs)
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=false
 POWERLEVEL9K_STATUS_OK=false
