@@ -3,3 +3,6 @@ direnv,https://direnv.net/
 pyenv,https://github.com/pyenv/pyenv#getting-pyenv
 fzf,https://github.com/junegunn/fzf
 thefuck,https://github.com/nvbn/thefuck
+exa,https://the.exa.website/install
+bat,https://www.cyberciti.biz/open-source/bat-linux-command-a-cat-clone-with-written-in-rust/
+prettyping,https://github.com/denilsonsa/prettyping
