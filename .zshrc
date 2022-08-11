@@ -240,6 +240,9 @@ bindkey '^E' end-of-line
 # bindkey '^[[3~' delete-char
 # bindkey '^[3;5~' delete-char
 
+# user programs
+PATH="$HOME/.bin:$PATH"
+
 # brew openssl 1.1 (install with `brew install openssl@1.1`)
 PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 
