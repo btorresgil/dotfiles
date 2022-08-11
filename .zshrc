@@ -203,15 +203,19 @@ gpip3(){
 }
 
 # pyenv
-if command -v pyenv 1>/dev/null 2>&1; then
-  # eval "$(pyenv init --path)"
-  # eval "$(pyenv init -)"
-  _evalcache pyenv init --path
-  _evalcache pyenv init -
-fi
-if command -v pyenv-virtualenv-init 1>/dev/null 2>&1; then
-  # eval "$(pyenv virtualenv-init -)"
-  _evalcache pyenv virtualenv-init -
+if [ -f "$HOME/.pyenv/bin/pyenv"]
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  if command -v pyenv 1>/dev/null 2>&1; then
+    # eval "$(pyenv init --path)"
+    # eval "$(pyenv init -)"
+    _evalcache pyenv init --path
+    _evalcache pyenv init -
+  fi
+  if command -v pyenv-virtualenv-init 1>/dev/null 2>&1; then
+    # eval "$(pyenv virtualenv-init -)"
+    _evalcache pyenv virtualenv-init -
+  fi
 fi
 
 # poetry
