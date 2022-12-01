@@ -95,6 +95,7 @@ POWERLEVEL9K_USER_SUDO_BACKGROUND="black"
 POWERLEVEL9K_USER_SUDO_FOREGROUND="red"
 POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND="red"
 POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND="black"
+POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 # Open new tabs in same directory
 if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
@@ -203,7 +204,7 @@ gpip3(){
 }
 
 # pyenv
-if [ -f "$HOME/.pyenv/bin/pyenv" ]; then
+if [ -d "$HOME/.pyenv" ]; then
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/bin:$PATH"
   if command -v pyenv 1>/dev/null 2>&1; then
