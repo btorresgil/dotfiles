@@ -165,10 +165,6 @@ alias oasis='ssh oasis'
 alias splunk='gcloud compute --project "ixius-splunk" ssh --zone "us-west1-b" "splunk@splunk"'
 
 
-# fzf (fuzzy find)
-[ -f $HOME/.dotfiles/.fzf.zsh ] && source ~/.dotfiles/.fzf.zsh
-export FZF_CTRL_R_OPTS='--sort --exact'
-
 # gcloud SDK
 export CLOUDSDK_PYTHON=python3
 if [ -f "$HOME/.local/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/.local/google-cloud-sdk/path.zsh.inc"; fi
@@ -244,6 +240,10 @@ bindkey '^E' end-of-line
 # bindkey '^[[B' history-substring-search-down
 # bindkey '^[[3~' delete-char
 # bindkey '^[3;5~' delete-char
+
+# fzf (fuzzy find)
+[ -f $HOME/.dotfiles/.fzf.zsh ] && source $HOME/.dotfiles/.fzf.zsh
+export FZF_CTRL_R_OPTS='--sort --exact'
 
 # user programs
 PATH="$HOME/.bin:$PATH"
