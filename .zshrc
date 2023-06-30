@@ -10,11 +10,33 @@ fi
 
 # Homebrew autocompletions (must be before compinit)
 # https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
+# List of possible Homebrew installation locations
+brew_locations=(
+    "/opt/homebrew"
+    "/usr/local"
+    "/home/linuxbrew/.linuxbrew"
+)
+function check_homebrew {
+    for location in "${brew_locations[@]}"
+    do
+        # Check if Homebrew exists in this location
+        if [[ -d $location && -x $location/bin/brew ]]; then
+            # Export Homebrew location as HOMEBREW_PREFIX
+            export HOMEBREW_PREFIX=$location
+            return 0
+        fi
+    done
+    export HOMEBREW_PREFIX=/opt/homebrew
+}
+
+# Call the function to check Homebrew installation
+check_homebrew
+
+export PATH="$HOMEBREW_PREFIX/bin:$PATH"
 if type brew &>/dev/null
 then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+  FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
 fi
-HOMEBREW_PREFIX=$(brew --prefix)
 
 # Enable autocompletions
 autoload -Uz compinit
@@ -75,7 +97,7 @@ ZSH_POETRY_AUTO_ACTIVATE=0
 ZSH_POETRY_AUTO_DEACTIVATE=0
 source ~/.zfunc/venv.plugin.zsh
 source $HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh
-alias zsh-update-plugins='antibody bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh'
+alias zsh-update-plugins='antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh'
 
 fpath+=~/.zfunc
 
@@ -130,8 +152,8 @@ export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
 #export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/gcloud/devrel-cps-btorresgil-a3dc0c375571.json"
 export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/gcloud/application_default_credentials.json"
 
-# Load antibody plugins
-if [ ! -d "~/Library/Caches/antibody" ]; then
+# Load antidote plugins
+if [ ! -d "~/Library/Caches/antidote" ]; then
   zsh-update-plugins
 fi
 source ~/.zsh_plugins.sh
