@@ -14,6 +14,7 @@ if type brew &>/dev/null
 then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
+HOMEBREW_PREFIX=$(brew --prefix)
 
 # Enable autocompletions
 autoload -Uz compinit
@@ -73,6 +74,7 @@ alias gi='git-ignore'
 ZSH_POETRY_AUTO_ACTIVATE=0
 ZSH_POETRY_AUTO_DEACTIVATE=0
 source ~/.zfunc/venv.plugin.zsh
+source $HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh
 alias zsh-update-plugins='antibody bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh'
 
 fpath+=~/.zfunc
@@ -133,14 +135,6 @@ if [ ! -d "~/Library/Caches/antibody" ]; then
   zsh-update-plugins
 fi
 source ~/.zsh_plugins.sh
-
-if [[ "$TERM_PROGRAM" == 'iTerm.app' ]]; then
-  source $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify/notify.plugin.zsh
-  fpath+=( $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify )
-elif [[ "$TERM_PROGRAM" == 'Apple_Terminal' ]]; then
-  source $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify/notify.plugin.zsh
-  fpath+=( $HOME/Library/Caches/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-marzocchi-SLASH-zsh-notify )
-fi
 
 # Aliases
 
@@ -206,7 +200,7 @@ if [ -f "$HOME/.local/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/.loc
 # Direnv
 # eval "$(direnv hook zsh)"
 _evalcache direnv hook zsh
-export PATH="/usr/local/opt/libpq/bin:$PATH"
+export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
 
 # thefuck?
 # eval $(thefuck --alias)
@@ -215,7 +209,7 @@ if command -v thefuck 1>/dev/null 2>&1; then
 fi
 
 # autojump
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+[ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
 
 # brew on linux
 [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -256,7 +250,7 @@ export PATH="$HOME/.poetry/bin:$PATH"
 
 # pipx
 export PATH="$HOME/.local/bin:$HOME/Library/Python/3.7/bin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
+export PATH="$HOMEBREW_PREFIX/sbin:$PATH"
 
 # rust and cargo
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -269,7 +263,7 @@ export HOMEBREW_UPDATE_PREINSTALL=0
 export HOMEBREW_NO_ENV_HINTS=1
 
 # brew gnu tools
-PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+PATH="$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
 
 # kubectl plugins (krew)
 export PATH="${PATH}:${HOME}/.krew/bin"
@@ -295,10 +289,10 @@ export FZF_CTRL_R_OPTS='--sort --exact'
 PATH="$HOME/.bin:$PATH"
 
 # brew openssl 1.1 (install with `brew install openssl@1.1`)
-PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+PATH="$HOMEBREW_PREFIX/opt/openssl@1.1/bin:$PATH"
 
 if [ -d "$HOME/.acme.sh" ]; then
   source "$HOME/.acme.sh/acme.sh.env"
 fi
 
-export PATH="/usr/local/opt/qt/bin:$PATH"
+export PATH="$HOMEBREW_PREFIX/opt/qt/bin:$PATH"
