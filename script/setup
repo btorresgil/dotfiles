@@ -5,7 +5,7 @@
 cd "$HOME/.dotfiles" || exit
 # Symlink all the first level files and directories
 # (except .git and script/setup, etc)
-find . -depth 1 | cut -c3- | grep -vE '^(\.git|script|nolink)' | xargs -I {} ln -s "$HOME/.dotfiles/{}" "$HOME/{}"
+find . -depth 1 | cut -c3- | grep -vE '^(\.git|script|nolink|iterm2_profile)' | xargs -I {} ln -s "$HOME/.dotfiles/{}" "$HOME/{}"
 
 ## Setup iterm2 preferences
 
