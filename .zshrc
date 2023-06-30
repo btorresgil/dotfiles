@@ -266,6 +266,7 @@ export PATH="$HOME/go/bin:$PATH"
 
 # homebrew
 export HOMEBREW_UPDATE_PREINSTALL=0
+export HOMEBREW_NO_ENV_HINTS=1
 
 # brew gnu tools
 PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
