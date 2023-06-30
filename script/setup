@@ -3,10 +3,9 @@
 ## Create symlinks
 
 cd "$HOME/.dotfiles" || exit
-# Make all the directories
-find . -type d | cut -c3- | xargs -I {} mkdir -p "$HOME/{}"
-# Symlink all the files (except .git and setup.sh)
-find . -type f | cut -c3- | grep -vE '^(\.git|setup\.zsh|\.fzf\.zsh|requirements)' | xargs -I {} ln -s "$HOME/.dotfiles/{}" "$HOME/{}"
+# Symlink all the first level files and directories
+# (except .git and script/setup, etc)
+find . -depth 1 | cut -c3- | grep -vE '^(\.git|script|nolink)' | xargs -I {} ln -s "$HOME/.dotfiles/{}" "$HOME/{}"
 
 ## Setup iterm2 preferences
 
@@ -19,7 +18,7 @@ fi
 
 ## Report missing programs that are used by this configuration
 
-# requirements=("${(@f)"$(<$HOME/.dotfiles/requirements)"}")
+# requirements=("${(@f)"$(<$HOME/.dotfiles/nolink/requirements)"}")
 # for program_line in "${requirements[@]}"; do
 #   program=("${(s/,/)program_line}")
 #   if ! command -v "$program[1]" 1>/dev/null 2>&1; then
