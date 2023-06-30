@@ -1,6 +1,7 @@
 tap "dopplerhq/cli"
 tap "hashicorp/tap"
 tap "teamookla/speedtest"
+tap "homebrew/cask-fonts"
 brew "asciinema"
 brew "awscli"
 brew "bat"
