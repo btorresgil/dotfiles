@@ -173,6 +173,16 @@ alias tg='doppler run --name-transformer tf-var -- terragrunt'
 
 alias k='kubectl'
 
+# docker-compose aliases
+
+alias dcu='docker-compose up -d --remove-orphans'
+alias dcr='docker-compose restart'
+alias dcdown='docker-compose down --remove-orphans'
+alias dcl='docker-compose logs --tail=300'
+alias dce='docker-compose exec'
+alias dcps='docker-compose ps'
+alias dcp='docker-compose pull'
+
 # SSH Aliases
 
 alias sshproxy='ssh -o ProxyCommand="nc -X 5 -x 127.0.0.1:1080 %h %p"'
