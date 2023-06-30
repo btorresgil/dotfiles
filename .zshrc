@@ -8,6 +8,13 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Homebrew autocompletions (must be before compinit)
+# https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
+
 # Enable autocompletions
 autoload -Uz compinit
 
@@ -34,14 +41,15 @@ zmodload -i zsh/complist
 HISTFILE=$HOME/.zhistory
 HISTSIZE=100000
 SAVEHIST=$HISTSIZE
+HISTORY_IGNORE="(doppler secrets set*)"
 
 export TERM="xterm-256color"
 
 # Options
 unsetopt correct # disable autocorrect
-setopt auto_cd # cd by typing directory name if it's not a command
-setopt auto_list # automatically list choices on ambiguous completion
-setopt auto_menu # automatically use menu completion
+#setopt auto_cd # cd by typing directory name if it's not a command
+#setopt auto_list # automatically list choices on ambiguous completion
+#setopt auto_menu # automatically use menu completion
 setopt always_to_end # move cursor to end if word had one match
 setopt hist_ignore_all_dups # remove older duplicate entries from history
 setopt hist_reduce_blanks # remove superfluous blanks from history items
@@ -59,9 +67,9 @@ zstyle ':completion:::::' completer _expand _complete _ignored _approximate # en
 export NVM_LAZY_LOAD=true
 export NVM_AUTO_USE=true
 alias gi='git-ignore'
-ENHANCD_FILTER=fzy:fzf:peco
-ENHANCD_DOT_ARG="."
-ENHANCD_DOT_SHOW_FULLPATH=1
+# ENHANCD_FILTER=fzy:fzf:peco
+# ENHANCD_DOT_ARG="."
+# ENHANCD_DOT_SHOW_FULLPATH=1
 ZSH_POETRY_AUTO_ACTIVATE=0
 ZSH_POETRY_AUTO_DEACTIVATE=0
 source ~/.zfunc/venv.plugin.zsh
@@ -145,8 +153,6 @@ alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 
 alias bw-unlock='export BW_SESSION=`bw unlock --raw`'
 
-alias tf='terraform'
-
 alias urldecode='python -c "import sys, urllib.parse as ul; \
     print(ul.unquote_plus(sys.argv[1]))"'
 alias urlencode='python -c "import sys, urllib.parse as ul; \
@@ -156,6 +162,17 @@ alias gh-browse='gh repo view --web'
 
 alias zshtime='for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done'
 
+alias d='doppler'
+alias dr='doppler run --'
+alias dc='f() { doppler run --command=''$1'' };f'
+alias ds='doppler secrets'
+alias dss='doppler secrets set'
+alias dsr='f() { doppler secrets set ''$2''="$(doppler secrets get ''$1'' --plain)"; doppler secrets delete ''$1'' -y --silent };f'
+alias tf='doppler run --name-transformer tf-var -- terraform'
+alias tg='doppler run --name-transformer tf-var -- terragrunt'
+
+alias k='kubectl'
+
 # SSH Aliases
 
 alias sshproxy='ssh -o ProxyCommand="nc -X 5 -x 127.0.0.1:1080 %h %p"'
@@ -164,6 +181,12 @@ alias splunkaws='ssh -i ~/.ssh/AmazonKeyPair.pem ec2-user@splunk-aws.panw.biz'
 alias oasis='ssh oasis'
 alias splunk='gcloud compute --project "ixius-splunk" ssh --zone "us-west1-b" "splunk@splunk"'
 
+# cert lookup
+
+function seecert () {
+  nslookup $1
+  (openssl s_client -showcerts -servername $1 -connect $1:443 <<< "Q" | openssl x509 -text | grep -iA2 "Validity")
+}
 
 # gcloud SDK
 export CLOUDSDK_PYTHON=python3
@@ -228,8 +251,17 @@ export PATH="/usr/local/sbin:$PATH"
 # rust and cargo
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# golang
+export PATH="$HOME/go/bin:$PATH"
+
+# homebrew
+export HOMEBREW_UPDATE_PREINSTALL=0
+
 # brew gnu tools
 PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+
+# kubectl plugins (krew)
+export PATH="${PATH}:${HOME}/.krew/bin"
 
 # broot
 # source $HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br
