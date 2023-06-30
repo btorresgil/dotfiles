@@ -1,5 +1,5 @@
 if [ "$(uname)" = "Darwin" ]; then
-  FZF_PATH=/usr/local/opt/fzf
+  FZF_PATH=$HOMEBREW_PREFIX/opt/fzf
 else
   FZF_PATH="$HOME/.fzf"
 fi
