@@ -95,7 +95,7 @@ alias gi='git-ignore'
 # ENHANCD_DOT_SHOW_FULLPATH=1
 ZSH_POETRY_AUTO_ACTIVATE=0
 ZSH_POETRY_AUTO_DEACTIVATE=0
-source ~/.zfunc/venv.plugin.zsh
+source ~/.dotfiles/nolink/venv.plugin.zsh
 source $HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh
 alias zsh-update-plugins='antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh'
 
@@ -304,7 +304,7 @@ bindkey '^E' end-of-line
 # bindkey '^[3;5~' delete-char
 
 # fzf (fuzzy find)
-[ -f $HOME/.dotfiles/.fzf.zsh ] && source $HOME/.dotfiles/.fzf.zsh
+[ -f $HOME/.dotfiles/nolink/.fzf.zsh ] && source $HOME/.dotfiles/nolink/.fzf.zsh
 export FZF_CTRL_R_OPTS='--sort --exact'
 
 # user programs
