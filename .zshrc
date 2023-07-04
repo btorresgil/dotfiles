@@ -290,6 +290,14 @@ PATH="$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
 # kubectl plugins (krew)
 export PATH="${PATH}:${HOME}/.krew/bin"
 
+# iterm2 shell integration
+if [ -f ~/.iterm2_shell_integration.zsh ]; then
+  source ~/.iterm2_shell_integration.zsh
+else
+  curl -L https://iterm2.com/shell_integration/zsh -o ~/.iterm2_shell_integration.zsh
+  source ~/.iterm2_shell_integration.zsh
+fi
+
 # broot
 # source $HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
