@@ -251,6 +251,17 @@ gpip3(){
    PIP_REQUIRE_VIRTUALENV="" pip3 "$@"
 }
 
+# ssh-agent (mostly for git)
+if [ $(ps ax | grep "[s]sh-agent" | wc -l) -eq 0 ] ; then
+  eval $(ssh-agent -s) > /dev/null
+  if [ "$(ssh-add -l)" = "The agent has no identities." ] ; then
+    # Auto-add ssh keys to your ssh agent
+    if [ $(uname) = "Darwin" ]; then
+      ssh-add --apple-use-keychain > /dev/null 2>&1
+    fi
+  fi
+fi
+
 # pyenv
 if [ -d "$HOME/.pyenv" ]; then
   export PYENV_ROOT="$HOME/.pyenv"
