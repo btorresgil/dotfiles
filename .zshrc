@@ -143,7 +143,16 @@ export LC_ALL="en_US.UTF-8"
 
 # Customize to your needs...
 
-export EDITOR=vim
+export EDITOR=vi
+
+# nvim
+if command -v nvim 1>/dev/null 2>&1; then
+  export EDITOR=nvim
+  alias vi='nvim'
+fi
+
+export KUBE_EDITOR=$EDITOR
+
 
 # Add support for ctrl+o in fzf to open selected file in VS Code
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
@@ -178,16 +187,19 @@ alias gh-browse='gh repo view --web'
 
 alias zshtime='for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done'
 
+alias k='kubectl'
+
+# doppler aliases
+
 alias d='doppler'
 alias dr='doppler run --'
 alias dc='f() { doppler run --command=''$1'' };f'
+alias dcx='f() { doppler run -p "$1" --command=''$2'' };f'
 alias ds='doppler secrets'
 alias dss='doppler secrets set'
 alias dsr='f() { doppler secrets set ''$2''="$(doppler secrets get ''$1'' --plain)"; doppler secrets delete ''$1'' -y --silent };f'
 alias tf='doppler run --name-transformer tf-var -- terraform'
 alias tg='doppler run --name-transformer tf-var -- terragrunt'
-
-alias k='kubectl'
 
 # docker-compose aliases
 
@@ -290,6 +302,14 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # golang
 export PATH="$HOME/go/bin:$PATH"
+
+# deno
+export PATH="$HOME/.deno/bin:$PATH"
+
+# windmill
+if command -v wmill 1>/dev/null 2>&1; then
+  source <(wmill completions zsh)
+fi
 
 # homebrew
 export HOMEBREW_UPDATE_PREINSTALL=0
