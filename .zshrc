@@ -8,6 +8,13 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+[ -f ~/.zshrc.env ] && source ~/.zshrc.env
+
+if [ -d "/opt/homebrew/opt/zinit" ]; then
+  ZINIT_HOME="/opt/homebrew/opt/zinit"
+  source "${ZINIT_HOME}/zinit.zsh"
+fi
+
 # Homebrew autocompletions (must be before compinit)
 # https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
 # List of possible Homebrew installation locations
@@ -169,7 +176,11 @@ source ~/.zsh_plugins.sh
 
 # Aliases
 
-command -v exa >/dev/null && alias ls="exa"
+if command -v eza 1>/dev/null 2>&1; then
+  alias ls="eza --git"
+  alias lsl="eza --git --long --icons=auto --group"
+  alias lss="eza --git --color=always --long --no-filesize --icons=always --no-time --no-user --no-permissions"
+fi
 command -v bat >/dev/null && alias cat='bat'
 command -v prettyping >/dev/null && alias ping='prettyping --nolegend'
 alias ncdu='ncdu --color dark -x --exclude .git --exclude node_modules'
