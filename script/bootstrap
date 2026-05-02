@@ -73,9 +73,19 @@ if command -v tmux >/dev/null 2>&1 && command -v git >/dev/null 2>&1; then
   fi
 
   echo "==> Installing tmux plugins..."
-  tmux start-server
+  TMUX_BOOTSTRAP_SESSION="dotfiles-bootstrap-tpm"
+  TMUX_BOOTSTRAP_CREATED=0
+  if ! tmux info >/dev/null 2>&1; then
+    tmux new-session -d -s "$TMUX_BOOTSTRAP_SESSION"
+    TMUX_BOOTSTRAP_CREATED=1
+  fi
+
   tmux source-file "$HOME/.config/tmux/tmux.conf"
   "$TPM_DIR/bin/install_plugins"
+
+  if [ "$TMUX_BOOTSTRAP_CREATED" -eq 1 ]; then
+    tmux kill-session -t "$TMUX_BOOTSTRAP_SESSION" >/dev/null 2>&1 || true
+  fi
 else
   echo "tmux or git not available; skipping tmux plugin install" >&2
 fi
