@@ -28,15 +28,15 @@ fi
 # 3. Install the OS-specific Brewfile. Brewfile-macos-full is manual-only.
 if command -v brew >/dev/null 2>&1; then
   case "$(uname)" in
-    Darwin)
-      BREWFILE="$DOTFILES/Brewfile-macos-minimal"
-      ;;
-    Linux)
-      BREWFILE="$DOTFILES/Brewfile-linux"
-      ;;
-    *)
-      BREWFILE=""
-      ;;
+  Darwin)
+    BREWFILE="$DOTFILES/Brewfile-macos-minimal"
+    ;;
+  Linux)
+    BREWFILE="$DOTFILES/Brewfile-linux"
+    ;;
+  *)
+    BREWFILE=""
+    ;;
   esac
 
   if [ -n "$BREWFILE" ] && [ -f "$BREWFILE" ]; then
@@ -61,6 +61,23 @@ fi
 # 5. Create symlinks with stow
 echo "Using stow to create symlinks."
 cd ${DOTFILES} && stow -R .
-cd ${DOTFILES} && stow -t $(HOME) -R home
+cd ${DOTFILES} && stow -t ${HOME} -R home
+
+# 6. Install tmux plugin manager and plugins
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+if command -v tmux >/dev/null 2>&1 && command -v git >/dev/null 2>&1; then
+  if [ ! -d "$TPM_DIR/.git" ]; then
+    echo "==> Installing tmux plugin manager..."
+    mkdir -p "$(dirname "$TPM_DIR")"
+    git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
+  fi
+
+  echo "==> Installing tmux plugins..."
+  tmux start-server
+  tmux source-file "$HOME/.config/tmux/tmux.conf"
+  "$TPM_DIR/bin/install_plugins"
+else
+  echo "tmux or git not available; skipping tmux plugin install" >&2
+fi
 
 echo "dotfiles bootstrap completed!"
