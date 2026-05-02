@@ -32,7 +32,7 @@ to manually download dotfiles.
 Include `STRAP_GITHUB_TOKEN` is only needed if you want the script to configure GitHub
 HTTPS credentials, for example before cloning private dotfiles repo.
 
-### What `bootstrap-macos.sh` does
+**What `bootstrap-macos.sh` does**
 
 - Applies baseline macOS security settings, including Touch ID sudo, firewall,
   secure screen-lock behavior, and FileVault.
