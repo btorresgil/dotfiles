@@ -1,0 +1,132 @@
+# dotfiles
+
+Personal MacOS/Linux shell configuration, deployed with [GNU Stow](https://www.gnu.org/software/stow/).
+
+## Install on MacOS
+
+### One-shot install
+
+On a fresh MacOS system
+
+```sh
+curl -fsSL -o ~/bootstrap-macos.sh https://raw.githubusercontent.com/btorresgil/dotfiles/master/script/bootstrap-macos.sh
+
+STRAP_GITHUB_USER="btorresgil" \
+  STRAP_GIT_NAME="Your Name" \
+  STRAP_GIT_EMAIL="you@example.com" \
+  bash ~/bootstrap-macos.sh
+```
+
+Optional bootstrap variables:
+
+```sh
+STRAP_GITHUB_TOKEN="<token>" # for when dotfiles repo is private
+```
+These commands download and run the standalone bootstrap script.
+
+`STRAP_GIT_NAME` and `STRAP_GIT_EMAIL` configure Git on the system.
+`STRAP_GITHUB_USER` lets the script clone
+`https://github.com/$STRAP_GITHUB_USER/dotfiles` into `~/.dotfiles`; see **Manual install** below
+to manually download dotfiles.
+
+Include `STRAP_GITHUB_TOKEN` is only needed if you want the script to configure GitHub
+HTTPS credentials, for example before cloning private dotfiles repo.
+
+### Manual install
+
+If STRAP_GITHUB_USER is ommited, you can clone the dotfiles repo manually.
+
+```sh
+git clone https://github.com/btorresgil/dotfiles ~/.dotfiles
+cd ~/.dotfiles
+STRAP_GIT_NAME="Your Name" \
+  STRAP_GIT_EMAIL="you@example.com" \
+  bash script/bootstrap-macos.sh
+make bootstrap   # installs Homebrew and stow, installs Brewfile packages, configures iterm2, creates symlinks
+```
+
+## Install on Linux
+
+On a fresh linux system:
+
+```sh
+git clone https://github.com/btorresgil/dotfiles ~/.dotfiles
+cd ~/.dotfiles
+make bootstrap   # installs Homebrew and stow, creates symlinks
+```
+
+## Other operations
+
+```sh
+make diff      # dry-run: show what apply would change
+make apply     # use stow to symlink everything; idempotent
+make unstow    # remove all symlinks managed by stow
+```
+
+After editing files in the repo, no re-stow is needed — your `~/.config/zsh/`
+is a directory of symlinks pointing at the repo, so changes are picked up by
+the next shell.
+
+## Per-machine overrides
+
+`~/.zshrc.env` (not tracked) is sourced by `~/.config/zsh/.zshrc` before any
+module loads. Use it for host-specific exports, secrets, etc.
+
+## How stow deploys
+
+Two stow passes:
+
+1. `stow .` from the repo root uses `.stowrc` to target `~/.config`. Every
+   top-level dir is treated as a stow package — `zsh/`, `zsh-plugins/`, etc. —
+   so e.g. `zsh/.zshrc` ends up at `~/.config/zsh/.zshrc`. The repo files
+   `Brewfile`, `Makefile`, `script/`, `iterm2/`, `home/`, and `.stowrc` itself
+   are excluded via `.stowrc` ignores.
+2. `stow -t ~ home` puts `home/.zshrc` at `~/.zshrc`. That file is a one-line
+   shim that sources `~/.config/zsh/.zshrc` — which is the loader that pulls
+   in the numbered modules above.
+
+`iterm2/` is intentionally not stowed. iTerm2 reads its prefs from an
+arbitrary directory configured via `defaults write … PrefsCustomFolder …`,
+so `script/bootstrap` just points iTerm at the in-repo path directly.
+
+## Caches and runtime state
+
+These are deliberately kept *out* of `~/.config/zsh/` (which is symlinked back
+into the repo):
+
+- `~/.cache/zsh/zcompdump-$ZSH_VERSION` — compinit dump
+- `~/.cache/zsh/.zsh_plugins.sh` — antidote-generated bundle
+- `~/.zhistory` — shell history - lives in `$HOME`
+
+## Layout
+
+```
+~/.dotfiles/
+├── .stowrc                # stow defaults: --target=~/.config + ignores
+├── Brewfile               # macOS Homebrew bundle
+├── Makefile               # apply / diff / unstow / bootstrap targets
+├── README.md
+├── home/                  # files that belong in $HOME (stowed separately to ~)
+│   └── .zshrc             # one-line shim: sources ~/.config/zsh/.zshrc
+├── iterm2/                # iTerm2 prefs (NOT stowed; bootstrap points iTerm here)
+│   └── com.googlecode.iterm2.plist
+├── script/
+│   ├── bootstrap          # idempotent setup (stow install, brew check, iTerm defaults)
+│   └── bootstrap-macos.sh # macOS-only first-time machine setup
+├── zsh/                   # → ~/.config/zsh/  (loaded via the home/.zshrc shim)
+│   ├── .zshrc             # loader: sources every *.zsh in this dir, in order
+│   ├── .zsh_plugins.txt   # antidote plugin list
+│   ├── 10-brew.zsh        # Homebrew detection, zinit, HOMEBREW_* env vars
+│   ├── 20-completion.zsh  # compinit (+ zcompdump cache), zstyle, fpath
+│   ├── 30-options.zsh     # setopt, history settings
+│   ├── 40-env.zsh         # TERM, LC_*, EDITOR, KUBE_EDITOR
+│   ├── 50-prompt.zsh      # Powerlevel9k vars, chpwd, virtualenv prompt disable
+│   ├── 60-plugins.zsh     # NVM/poetry config, antidote framework + bundle source
+│   ├── 70-aliases.zsh     # all aliases + seecert function
+│   ├── 75-keybindings.zsh # bindkey -v + custom bindings (must run before fzf)
+│   ├── 80-tools.zsh       # gcloud, direnv, thefuck, pyenv, fzf, iterm2 integration, ...
+│   └── 90-paths.zsh       # PATH additions (run last so they take precedence)
+└── zsh-plugins/           # → ~/.config/zsh-plugins/
+    ├── .fzf.zsh           # fzf init (generated by the fzf installer)
+    └── venv.plugin.zsh    # custom venv auto-activation plugin
+```

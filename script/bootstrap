@@ -1,0 +1,52 @@
+#!/bin/zsh
+# Non-symlink bootstrap: stow install, Brewfile, macOS defaults, missing programs.
+# Symlinking lives in the Makefile (`make apply`).
+
+set -e
+
+DOTFILES="$HOME/.dotfiles"
+
+# 1. Ensure homebrew is installed
+if ! command -v brew >/dev/null 2>&1; then
+  echo "==> brew not found; installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo "==> Homebrew installed."
+fi
+
+# 2. Ensure stow is installed
+if ! command -v stow >/dev/null 2>&1; then
+  if command -v brew >/dev/null 2>&1; then
+    echo "==> stow not found; installing via Homebrew..."
+    brew install stow
+    echo "==> stow installed."
+  else
+    echo "stow not installed and Homebrew not available; install stow first" >&2
+    exit 1
+  fi
+fi
+
+# 3. Brewfile (macOS only — Brewfile is mac-flavored)
+if [ "$(uname)" = "Darwin" ] && command -v brew >/dev/null 2>&1; then
+  if ! brew bundle check --file="$DOTFILES/Brewfile" >/dev/null 2>&1; then
+    echo "Brewfile has missing entries. Run: brew bundle install --file=$DOTFILES/Brewfile"
+  fi
+fi
+
+# 4. iTerm2 prefs directory — point iTerm at the in-repo location.
+# The plist lives in packages/iterm2/.config/iterm2/ and is loaded by iTerm
+# directly (not stowed into $HOME, since iTerm reads from an arbitrary path
+# configured via `defaults`).
+if [ "$(uname)" = "Darwin" ]; then
+  ITERM_DIR="$DOTFILES/iterm2"
+  if [ -d "$ITERM_DIR" ]; then
+    defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "$ITERM_DIR"
+    defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+  fi
+fi
+
+# 5. Create symlinks with stow
+echo "Using stow to create symlinks."
+cd ${DOTFILES} && stow -R .
+cd ${DOTFILES} && stow -t $(HOME) -R home
+
+echo "dotfiles bootstrap completed!"
