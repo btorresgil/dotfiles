@@ -30,3 +30,7 @@ PATH="$HOME/.bin:$PATH"
 PATH="$HOMEBREW_PREFIX/opt/openssl@1.1/bin:$PATH"
 
 export PATH="$HOMEBREW_PREFIX/opt/qt/bin:$PATH"
+
+# opencode
+export PATH=/home/dralthiace/.opencode/bin:$PATH
+
