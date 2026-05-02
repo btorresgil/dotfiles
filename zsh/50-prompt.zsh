@@ -1,11 +1,11 @@
 # Powerlevel9k/10k theme
 POWERLEVEL9K_MODE='nerdfont-complete'
 
-if [ "$HOST" = "oasis" ]; then
-  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir virtualenv vcs)
-else
-  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir virtualenv vcs)
-fi
+case "$HOST" in
+MacBook*) POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir virtualenv vcs) ;;
+*) POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir virtualenv vcs) ;;
+esac
+
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs)
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=false
 POWERLEVEL9K_STATUS_OK=false
