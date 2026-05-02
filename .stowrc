@@ -3,6 +3,7 @@
 --ignore=^script$
 --ignore=^iterm2$
 --ignore=^Brewfile$
+--ignore=^Brewfile-.*
 --ignore=^Makefile$
 --ignore=^README.*
 --ignore=^\.stowrc$

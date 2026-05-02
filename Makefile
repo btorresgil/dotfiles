@@ -7,7 +7,7 @@ help:
 	@echo "  apply      stow into ~/.config and ~ (home/)"
 	@echo "  diff       dry-run: show what apply would change"
 	@echo "  unstow     remove all symlinks managed by stow"
-	@echo "  bootstrap  run script/bootstrap (stow install, Brewfile check, iTerm defaults)"
+	@echo "  bootstrap  run script/bootstrap (stow install, OS Brewfile install, iTerm defaults)"
 
 apply:
 	cd $(DOTFILES) && stow -R .

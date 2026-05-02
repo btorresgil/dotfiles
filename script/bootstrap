@@ -25,10 +25,24 @@ if ! command -v stow >/dev/null 2>&1; then
   fi
 fi
 
-# 3. Brewfile (macOS only — Brewfile is mac-flavored)
-if [ "$(uname)" = "Darwin" ] && command -v brew >/dev/null 2>&1; then
-  if ! brew bundle check --file="$DOTFILES/Brewfile" >/dev/null 2>&1; then
-    echo "Brewfile has missing entries. Run: brew bundle install --file=$DOTFILES/Brewfile"
+# 3. Install the OS-specific Brewfile. Brewfile-macos-full is manual-only.
+if command -v brew >/dev/null 2>&1; then
+  case "$(uname)" in
+    Darwin)
+      BREWFILE="$DOTFILES/Brewfile-macos-minimal"
+      ;;
+    Linux)
+      BREWFILE="$DOTFILES/Brewfile-linux"
+      ;;
+    *)
+      BREWFILE=""
+      ;;
+  esac
+
+  if [ -n "$BREWFILE" ] && [ -f "$BREWFILE" ]; then
+    if ! brew bundle check --file="$BREWFILE" >/dev/null 2>&1; then
+      brew bundle install --file="$BREWFILE"
+    fi
   fi
 fi
 

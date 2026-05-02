@@ -1,0 +1,113 @@
+tap "homebrew/bundle"
+tap "oven-sh/bun"
+# Plugin manager for zsh, inspired by antigen and antibody
+brew "antidote"
+# Official Amazon AWS command-line interface
+brew "awscli"
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
+# Core application library for C
+brew "glib"
+# C parser in Python
+brew "pycparser"
+# C Foreign Function Interface for Python
+brew "cffi"
+# Secure runtime for JavaScript and TypeScript
+brew "deno"
+# Load/unload environment variables based on $PWD
+brew "direnv"
+# Pack, ship and run any application as a lightweight container
+brew "docker"
+# Isolated development environments using Docker
+brew "docker-compose"
+# Modern, maintained replacement for ls
+brew "eza"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# GitHub command-line tool
+brew "gh"
+# Git extension for versioning large files
+brew "git-lfs"
+# Terminal multiplexer
+brew "tmux"
+# Git status in tmux status bar
+brew "gitmux"
+# GNU version of the tar archiving utility
+brew "gnu-tar"
+# GNU Transport Layer Security (TLS) Library
+brew "gnutls"
+# NCurses Disk Usage
+brew "ncdu"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
+# Port scanning utility for large networks
+brew "nmap"
+# Framework for managing multi-language pre-commit hooks
+brew "pre-commit"
+# Wrapper to colorize and simplify ping's output
+brew "prettyping"
+# Python version management
+brew "pyenv"
+# Command-line YAML and XML processor that wraps jq
+brew "python-yq"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# Utility that provides fast incremental file transfer
+brew "rsync"
+# Static analysis and lint tool, for (ba)sh scripts
+brew "shellcheck"
+# Organize software neatly under a single directory tree (e.g. /usr/local)
+brew "stow"
+# Send macOS User Notifications from the command-line
+brew "terminal-notifier"
+# Programmatically correct mistyped console commands
+brew "thefuck"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
+# Executes a program periodically, showing output fullscreen
+brew "watch"
+# Watch files and take action when they change
+brew "watchman"
+# Friendly and fast tool for sending HTTP requests
+brew "xh"
+# Flexible and fast Zsh plugin manager
+brew "zinit"
+# Shell extension to navigate your filesystem faster
+brew "zoxide"
+# Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
+brew "oven-sh/bun/bun"
+# Password manager that keeps all passwords secure behind one password
+cask "1password"
+# Command-line helper for the 1Password password manager
+cask "1password-cli@beta"
+# Control USB Cameras from an app
+cask "cameracontroller"
+# Anthropic's official Claude AI desktop app
+cask "claude"
+# OpenAI's coding agent that runs in your terminal
+cask "codex"
+# Nerd Fonts
+cask "font-fira-code-nerd-font"
+cask "font-hack-nerd-font"
+cask "font-meslo-lg-nerd-font"
+cask "font-source-code-pro"
+# Terminal emulator as alternative to Apple's Terminal app
+cask "iterm2"
+# File archiver
+cask "keka"
+# Software for Logitech devices
+cask "logi-options+"
+# Control your tools with a few keystrokes
+cask "raycast"
+# Window snapping tool
+cask "rectangle-pro"
+# Team communication and collaboration software
+cask "slack"
+# Tool to invert scroll direction for physical scroll wheels
+cask "unnaturalscrollwheels"
+# Open-source code editor
+cask "visual-studio-code"
+# Gecko based web browser
+cask "zen"
+# Video communication and virtual meeting platform
+cask "zoom"

@@ -72,6 +72,26 @@ the next shell.
 `~/.zshrc.env` (not tracked) is sourced by `~/.config/zsh/.zshrc` before any
 module loads. Use it for host-specific exports, secrets, etc.
 
+## Brewfiles
+
+* `Brewfile-macos-minimal` - packages installed by bootstrap when run on macos
+* `Brewfile-macos-full` - full set of packages typically used on macos
+* `Brewfile-linux` - packages installed by the bootstrap when run on linux
+
+**To Install full MacOS packages list**
+```sh
+brew bundle install --file ~/.dotfiles/Brewfile-macos-full
+```
+
+**Updating the Brewfiles**
+
+Get the current list of installed brew packages:
+
+```sh
+brew bundle dump --file ./Brewfile.linux --describe --no-vscode --no-krew --no-go --force
+```
+
+
 ## How stow deploys
 
 Two stow passes:
@@ -103,7 +123,9 @@ into the repo):
 ```
 ~/.dotfiles/
 ├── .stowrc                # stow defaults: --target=~/.config + ignores
-├── Brewfile               # macOS Homebrew bundle
+├── Brewfile-linux         # Linux Homebrew bundle installed by bootstrap
+├── Brewfile-macos-minimal # macOS Homebrew bundle installed by bootstrap
+├── Brewfile-macos-full    # macOS Homebrew bundle installed manually
 ├── Makefile               # apply / diff / unstow / bootstrap targets
 ├── README.md
 ├── home/                  # files that belong in $HOME (stowed separately to ~)
