@@ -72,6 +72,7 @@ make bootstrap   # installs Homebrew and stow, creates symlinks
 make diff      # dry-run: show what apply would change
 make apply     # use stow to symlink everything; idempotent
 make unstow    # remove all symlinks managed by stow
+make brew-macos-full  # install the full macOS Brewfile package list
 ```
 
 After editing files in the repo, no re-stow is needed — your `~/.config/zsh/`
@@ -91,7 +92,7 @@ module loads. Use it for host-specific exports, secrets, etc.
 
 **To Install full MacOS packages list**
 ```sh
-brew bundle install --file ~/.dotfiles/Brewfile-macos-full
+make brew-macos-full
 ```
 
 **Updating the Brewfiles**

@@ -1,6 +1,6 @@
 DOTFILES := $(HOME)/.dotfiles
 
-.PHONY: apply diff unstow bootstrap help
+.PHONY: apply diff unstow bootstrap brew-macos-full help
 
 help:
 	@echo "Targets:"
@@ -8,6 +8,7 @@ help:
 	@echo "  diff       dry-run: show what apply would change"
 	@echo "  unstow     remove all symlinks managed by stow"
 	@echo "  bootstrap  run script/bootstrap (stow install, OS Brewfile install, iTerm defaults)"
+	@echo "  brew-macos-full  install full macOS Brewfile packages"
 
 apply:
 	cd $(DOTFILES) && stow -R .
@@ -23,3 +24,6 @@ unstow:
 
 bootstrap:
 	$(DOTFILES)/script/bootstrap
+
+brew-macos-full:
+	brew bundle install --file $(DOTFILES)/Brewfile-macos-full
