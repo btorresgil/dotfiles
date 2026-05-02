@@ -1,4 +1,3 @@
-tap "homebrew/bundle"
 tap "oven-sh/bun"
 tap "phasehq/cli"
 # Browser automation CLI for AI agents
@@ -86,7 +85,7 @@ brew "phasehq/cli/phase"
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
 # Command-line helper for the 1Password password manager
-cask "1password-cli@beta"
+cask "1password-cli"
 # Memory training application
 cask "anki"
 # Tool to flash OS images to SD cards & USB drives
