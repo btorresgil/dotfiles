@@ -37,10 +37,9 @@ fi
 # pyenv
 if [ -d "$HOME/.pyenv" ]; then
   export PYENV_ROOT="$HOME/.pyenv"
-  export PATH="$PYENV_ROOT/bin:$PATH"
+  export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
   if command -v pyenv 1>/dev/null 2>&1; then
-    _evalcache pyenv init --path
-    _evalcache pyenv init -
+    _evalcache pyenv init --no-rehash -
   fi
   if command -v pyenv-virtualenv-init 1>/dev/null 2>&1; then
     _evalcache pyenv virtualenv-init -

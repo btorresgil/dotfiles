@@ -7,4 +7,4 @@ hlolli/zsh-better-npm-completion
 laggardkernel/git-ignore
 supercrabtree/k
 github/hub kind:fpath path:etc/hub.zsh_completion
-romkatv/powerlevel10k
+romkatv/powerlevel10k path:powerlevel10k.zsh-theme
