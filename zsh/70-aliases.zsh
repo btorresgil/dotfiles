@@ -44,6 +44,9 @@ alias dce='docker-compose exec'
 alias dcps='docker-compose ps'
 alias dcp='docker-compose pull'
 
+# agent aliases
+alias claude='claude --allow-dangerously-skip-permissions'
+
 # SSH aliases
 alias sshproxy='ssh -o ProxyCommand="nc -X 5 -x 127.0.0.1:1080 %h %p"'
 alias sshdirect='ssh -o ProxyCommand=""'

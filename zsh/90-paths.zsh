@@ -34,3 +34,5 @@ export PATH="$HOMEBREW_PREFIX/opt/qt/bin:$PATH"
 # opencode
 export PATH=/home/dralthiace/.opencode/bin:$PATH
 
+# pnpm binaries
+export PATH=/home/dralthiace/.local/share/pnpm:$PATH
