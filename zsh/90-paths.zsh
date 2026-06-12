@@ -36,3 +36,10 @@ export PATH=/home/dralthiace/.opencode/bin:$PATH
 
 # pnpm binaries
 export PATH=/home/dralthiace/.local/share/pnpm:$PATH
+
+# bun
+export PATH="$HOME/.bun/bin:$PATH"
+
+# local bin
+export PATH="$HOME/.local/bin:$PATH"
+
