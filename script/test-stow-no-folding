@@ -31,6 +31,10 @@ mkdir -p "$stow_dir/dotfiles/herdr" "$target/herdr"
 printf '%s\n' 'onboarding = false' > "$stow_dir/dotfiles/herdr/config.toml"
 printf '%s\n' 'runtime' > "$target/herdr/session.json"
 
+# Repository-internal documentation is not part of the target config tree.
+mkdir -p "$stow_dir/dotfiles/docs"
+printf '%s\n' 'internal' > "$stow_dir/dotfiles/docs/design.md"
+
 # Exercise the repository policy, overriding only its real target path.
 cp "$repo/.stowrc" "$fixture/.stowrc"
 (
@@ -49,6 +53,7 @@ test -L "$target/tmux/tmux.conf"
 test -L "$target/herdr/config.toml"
 test -L "$target/.zshrc"
 test ! -e "$target/tmux/plugins"
+test ! -e "$target/docs"
 test -f "$target/herdr/session.json"
 test ! -L "$target/herdr/session.json"
 cmp "$stow_dir/dotfiles/herdr/config.toml" "$target/herdr/config.toml"
