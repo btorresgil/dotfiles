@@ -75,9 +75,9 @@ make unstow    # remove all symlinks managed by stow
 make brew-macos-full  # install the full macOS Brewfile package list
 ```
 
-After editing files in the repo, no re-stow is needed — your `~/.config/zsh/`
-is a directory of symlinks pointing at the repo, so changes are picked up by
-the next shell.
+Edits to already-linked repository files are visible immediately. After adding,
+removing, or renaming repository files, run `make apply` so Stow updates the
+individual links in the real target directories.
 
 ## Per-machine overrides
 
@@ -117,14 +117,23 @@ Two stow passes:
    shim that sources `~/.config/zsh/.zshrc` — which is the loader that pulls
    in the numbered modules above.
 
+`.stowrc` enables `--no-folding`, so application directories such as
+`~/.config/nvim/` and `~/.config/zsh/` are real directories containing
+individual links to repository files. `stow -R` also migrates older folded
+directory links to this layout during the normal `make apply` or bootstrap
+path. Direct files such as `~/.zshrc` remain ordinary file symlinks.
+
+Git and Stow have separate ignore policies. `tmux/plugins/` is ignored by both:
+it is generated runtime state and must not be deployed as individual links.
+
 `iterm2/` is intentionally not stowed. iTerm2 reads its prefs from an
 arbitrary directory configured via `defaults write … PrefsCustomFolder …`,
 so `script/bootstrap` just points iTerm at the in-repo path directly.
 
 ## Caches and runtime state
 
-These are deliberately kept *out* of `~/.config/zsh/` (which is symlinked back
-into the repo):
+These are deliberately kept *out* of `~/.config/zsh/`, which contains links to
+managed repository files:
 
 - `~/.cache/zsh/zcompdump-$ZSH_VERSION` — compinit dump
 - `~/.cache/zsh/.zsh_plugins.sh` — antidote-generated bundle
@@ -134,7 +143,7 @@ into the repo):
 
 ```
 ~/.dotfiles/
-├── .stowrc                # stow defaults: --target=~/.config + ignores
+├── .stowrc                # stow target, no-folding policy, and ignores
 ├── Brewfile-linux         # Linux Homebrew bundle installed by bootstrap
 ├── Brewfile-macos-minimal # macOS Homebrew bundle installed by bootstrap
 ├── Brewfile-macos-full    # macOS Homebrew bundle installed manually
@@ -143,11 +152,11 @@ into the repo):
 ├── home/                  # files that belong in $HOME (stowed separately to ~)
 │   └── .zshrc             # one-line shim: sources ~/.config/zsh/.zshrc
 ├── iterm2/                # iTerm2 prefs (NOT stowed; bootstrap points iTerm here)
-├── nvim/                  # → ~/.config/nvim/
+├── nvim/                  # file links inside real ~/.config/nvim/
 ├── script/
 │   ├── bootstrap          # idempotent setup (stow install, brew check, iTerm defaults)
 │   └── bootstrap-macos.sh # macOS-only first-time machine setup
-├── tmux/                  # → ~/.config/tmux/
-├── zsh/                   # → ~/.config/zsh/  (loaded via the home/.zshrc shim)
-└── zsh-plugins/           # → ~/.config/zsh-plugins/
+├── tmux/                  # file links inside real ~/.config/tmux/
+├── zsh/                   # file links inside real ~/.config/zsh/
+└── zsh-plugins/           # file links inside real ~/.config/zsh-plugins/
 ```
