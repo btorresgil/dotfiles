@@ -1,0 +1,67 @@
+#!/bin/sh
+set -eu
+
+repo=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+fixture=$(mktemp -d)
+trap 'rm -rf "$fixture"' EXIT HUP INT TERM
+
+stow_dir="$fixture/stow"
+target="$fixture/target"
+mkdir -p \
+  "$stow_dir/dotfiles/nvim" \
+  "$stow_dir/dotfiles/tmux/plugins/generated" \
+  "$stow_dir/home" \
+  "$target"
+
+printf '%s\n' 'return {}' > "$stow_dir/dotfiles/nvim/init.lua"
+printf '%s\n' 'set -g mouse on' > "$stow_dir/dotfiles/tmux/tmux.conf"
+printf '%s\n' 'generated' > "$stow_dir/dotfiles/tmux/plugins/generated/state"
+printf '%s\n' 'source ~/.config/zsh/.zshrc' > "$stow_dir/home/.zshrc"
+
+# Reproduce an installation created before --no-folding became policy.
+(
+  cd "$fixture"
+  stow -d "$stow_dir" -t "$target" dotfiles
+)
+test -L "$target/nvim"
+test -L "$target/tmux"
+
+# Add a mixed config/runtime directory as it would exist on a real machine.
+mkdir -p "$stow_dir/dotfiles/herdr" "$target/herdr"
+printf '%s\n' 'onboarding = false' > "$stow_dir/dotfiles/herdr/config.toml"
+printf '%s\n' 'runtime' > "$target/herdr/session.json"
+
+# Exercise the repository policy, overriding only its real target path.
+cp "$repo/.stowrc" "$fixture/.stowrc"
+(
+  cd "$fixture"
+  stow -d "$stow_dir" -t "$target" -R dotfiles
+  stow -d "$stow_dir" -t "$target" -R home
+)
+
+for directory in nvim tmux herdr; do
+  test -d "$target/$directory"
+  test ! -L "$target/$directory"
+done
+
+test -L "$target/nvim/init.lua"
+test -L "$target/tmux/tmux.conf"
+test -L "$target/herdr/config.toml"
+test -L "$target/.zshrc"
+test ! -e "$target/tmux/plugins"
+test -f "$target/herdr/session.json"
+test ! -L "$target/herdr/session.json"
+cmp "$stow_dir/dotfiles/herdr/config.toml" "$target/herdr/config.toml"
+
+# A second restow must preserve the same layout without conflicts.
+(
+  cd "$fixture"
+  stow -d "$stow_dir" -t "$target" -R dotfiles
+  stow -d "$stow_dir" -t "$target" -R home
+)
+test -d "$target/nvim"
+test ! -L "$target/nvim"
+test -L "$target/nvim/init.lua"
+test -f "$target/herdr/session.json"
+
+printf '%s\n' 'stow no-folding migration tests passed'

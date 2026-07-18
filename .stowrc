@@ -1,4 +1,6 @@
 --target=~/.config
+--no-folding
+--ignore=^tmux/plugins$
 --ignore=^home$
 --ignore=^script$
 --ignore=^iterm2$
