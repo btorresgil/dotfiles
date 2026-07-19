@@ -8,8 +8,9 @@ if [[ -r "$HOME/.cache/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "$HOME/.cache/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-[ -f ~/.zshrc.env ] && source ~/.zshrc.env
-
 for f in "$HOME/.config/zsh"/*.zsh(N); do
   source "$f"
 done
+
+[ -f ~/.zshrc.env ] && source ~/.zshrc.env
+

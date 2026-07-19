@@ -66,6 +66,22 @@ _fzf_init="$HOME/.config/zsh-plugins/.fzf.zsh"
 [ -f "$_fzf_init" ] && source "$_fzf_init"
 unset _fzf_init
 
+# acme.sh
 if [ -d "$HOME/.acme.sh" ]; then
   source "$HOME/.acme.sh/acme.sh.env"
 fi
+
+# fnm (fast node manager)
+if command -v fnm 1>/dev/null 2>&1; then
+  eval "$(fnm env --use-on-cd --shell zsh)"
+fi
+
+# pnpm
+if command -v pnpm 1>/dev/null 2>&1; then
+  export PNPM_HOME="$HOME/.local/share/pnpm"
+  case ":$PATH:" in
+    *":$PNPM_HOME/bin:"*) ;;
+    *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+  esac
+fi
+
