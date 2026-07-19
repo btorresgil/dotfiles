@@ -1,0 +1,46 @@
+onboarding = false
+
+[ui]
+show_agent_labels_on_pane_borders = true
+agent_panel_sort = "spaces"
+hide_tab_bar_when_single_tab = true
+
+[ui.sound]
+enabled = true
+
+[ui.toast]
+delivery = "system"
+
+[ui.toast.herdr]
+position = "top-right"
+
+[theme]
+name = "catppuccin"
+auto_switch = false
+
+[keys]
+prefix = "ctrl+b"
+settings = "prefix+a"
+
+navigate_pane_left = ""
+navigate_pane_up = ""
+navigate_pane_down = ""
+navigate_pane_right = ""
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+
+split_horizontal = "prefix+s"
+
+previous_workspace = "prefix+-"
+next_workspace = "prefix+="
+
+previous_agent = "prefix+shift+tab"
+next_agent = "prefix+tab"
+
+swap_pane_up = "prefix+shift+k"
+swap_pane_down = "prefix+shift+j"
+swap_pane_left = "prefix+shift+h"
+swap_pane_right = "prefix+shift+l"
+
+switch_workspace = "prefix+shift+1..9"
+focus_agent = "prefix+alt+1..9"
