@@ -18,8 +18,11 @@ position = "top-right"
 name = "catppuccin"
 auto_switch = false
 
+[ui.sidebar.agents.rows_by_agent]
+claude = [["state_icon", "workspace"], ["terminal_title_stripped"]]
+
 [keys]
-prefix = "ctrl+b"
+prefix = "ctrl+a"
 settings = "prefix+a"
 
 navigate_pane_left = ""
